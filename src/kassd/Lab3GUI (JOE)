@@ -1,0 +1,99 @@
+/*
+ * Course: SE-1011-003
+ * Term: Winter 2010-2011
+ * Assignment: Lab 3
+ * Author: Joe Bosas
+ * Date: 01/06/2011
+ */
+package week4;
+
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class Lab3GUI {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//	We place this variable outside of the first loop as it is required
+		// to be "y" in order to get into the first loop.
+		String option = "y";
+		
+		// create a loop and end when user cancels 
+		//(we check for null because the user can cancel the continue dialog which causes "option" to be null)
+		while(option != null && option.equals("y")){
+			// define and initialize variables (sentence, numberOfWords, shortestWord, 
+			// shortestWordLength longestWord, longestWordLength, modifiedDelimeter, shouldContinue)
+			// This code will also re-initialize all variables when the loop re-runs so that no
+			// variables will persist through each iteration
+			String sentence = "";
+			int numberOfWords = 0;
+			String shortestWord = "";
+			// Assume the shortest word to be of the largest length
+			int shortestWordLength = Integer.MAX_VALUE;
+			String longestWord = "";
+			// Assume the longest word to be of the shortest length
+			int longestWordLength = Integer.MIN_VALUE;
+			String modifiedString = "";
+			String delimitedWord = "";
+			int firstWordLength = 0;
+			
+			// Ask user for sentence
+			sentence = JOptionPane.showInputDialog("Enter a sentence delimited by a space character");
+			// Pass input to the scanner
+			Scanner inputReader = new Scanner(sentence);
+			
+			//loop while words exist in the input
+			while(inputReader.hasNext()){							
+				delimitedWord = inputReader.next();				
+				
+				// Use the fact that we know shortest word length will change upon the first iteration
+				// because no word will have a longer length than Integer.MAX_VALUE
+				if(shortestWordLength == Integer.MAX_VALUE)
+					firstWordLength = delimitedWord.length();
+				
+				// find the shortest word and shortest word length
+				if(delimitedWord.length() < shortestWordLength){
+					shortestWord = delimitedWord;
+					shortestWordLength = shortestWord.length();
+				}
+				
+				// find the longest word and longest word length
+				if(delimitedWord.length() > longestWordLength){
+					longestWord = delimitedWord;
+					longestWordLength = longestWord.length();
+				}
+				
+				// If the word just pulled has a larger length than the first word, add it to the
+				// word with '|' characters as the delimiter. The exeption case is that their
+				// is only one word so we need to first make sure that firstWord
+				if(delimitedWord.length() > firstWordLength)
+					modifiedString = modifiedString + "|" + delimitedWord;
+				
+				// compute the number of words
+				numberOfWords = numberOfWords + 1;
+			}
+			
+			// Create the string of everything that was calculated. 
+			String stringToDisplay = "Original Sentence = " + sentence + "\n" + 
+			"Number of words = " + numberOfWords + "\n" + 
+			"Shortest word = " + shortestWord + " (length = " + shortestWordLength + ") \n" +
+			"Longest word = " + longestWord + " (length = " + longestWordLength + ")";
+			
+			// If their was a word to place in modifiedString we get rid of 
+			// the first character '|' in modifiedString so as to simplify loop logic above.
+			if(!modifiedString.equals(""))
+				stringToDisplay = stringToDisplay + "\n" + "New string = " + modifiedString.substring(1, modifiedString.length());
+			
+			// Show the results to the user
+			JOptionPane.showMessageDialog(null,stringToDisplay);
+			
+			// Ask user to repeat process
+			option = JOptionPane.showInputDialog("Do you want to continue? y for yes and n for no. If either of these are not entered the program will continue");			
+		}	
+		// were done								
+	}
+
+}

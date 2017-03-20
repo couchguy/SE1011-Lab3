@@ -1,0 +1,93 @@
+/*
+ * SE-1011-001
+ * Winter 2010-1011
+ * Lab 3
+ * Dan Kass
+ * 01/04/11
+ */
+
+package kassd;
+
+import javax.swing.JOptionPane;
+import java.util.Scanner;
+
+public class Lab3GUI {
+	public static void main(String[] args) {
+		String userInput;
+		Scanner scan;
+		int wordCount = 0;
+		boolean go = true;
+		boolean first = true;
+		String shortest = "";
+		String longest = "";
+		int shortestLength = 0;
+		int longestLength = 0;
+		String currentWord = "";
+		String firstWord = "";
+		
+
+		// Allows to operation to continue and repeat
+		while (go) {
+			userInput = JOptionPane
+					.showInputDialog("Please enter your words here.");
+			// if the user didn't hit cancel
+			if (userInput != null) {
+				scan = new Scanner(userInput);
+				while (scan.hasNext()) {
+					currentWord = scan.next();
+					// sets the first word so the rest can be compared to it
+					if (first) {
+						shortest = currentWord;
+						shortestLength = shortest.length();
+						longest = currentWord;
+						longestLength = longest.length();
+						firstWord = currentWord;
+						wordCount++;
+						first = false;
+						// compares words to the shortest word and replaces it
+						// if shorter
+					} else if (shortestLength >= currentWord.length()) {
+						shortest = currentWord;
+						shortestLength = shortest.length();
+						wordCount++;
+						// compares words to the longest word and replaces it if
+						// longer
+					} else if (longestLength <= currentWord.length()) {
+						longest = currentWord;
+						longestLength = longest.length();
+						wordCount++;
+						// for the words that are in between the shortest and
+						// longest words so they can be included in the word
+						// count
+					} else {
+						wordCount++;
+
+					}
+
+				}
+
+				// Displays the word count of the last sentence entered.
+				JOptionPane.showMessageDialog(null, "There are " + wordCount
+						+ " words.");
+				// Displays the information for the shortest word.
+				JOptionPane.showMessageDialog(null, "  The shortest word is \""
+						+ shortest + "\", and it is " + shortestLength
+						+ " characters long.");
+				// Displays the information for the longest word.
+				JOptionPane.showMessageDialog(null, "  The longest word is \""
+						+ longest + "\", and it is " + longestLength
+						+ " characters long.");
+				// New String
+				JOptionPane.showMessageDialog(null, firstWord);
+				// Resets the word count to zero for the next sentence.
+				wordCount = 0;
+				
+			// The user hits cancel to end the operation.
+			} else {
+				JOptionPane.showMessageDialog(null, "Thank You");
+				go = false;
+			}
+
+		}
+	}
+}
